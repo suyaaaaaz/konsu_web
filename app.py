@@ -1,4 +1,3 @@
-import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
@@ -25,6 +24,10 @@ load_dotenv(dotenv_path)
 
 MONGODB_URI = os.environ.get("MONGODB_URI")
 DB_NAME =  os.environ.get("DB_NAME")
+
+client = MongoClient(MONGODB_URI)
+
+db = client[DB_NAME]
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -69,8 +72,6 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
  
 # Koneksi ke MongoDB
-client = MongoClient(MONGODB_URI)
-db = client[DB_NAME]
 penghuni_collection = db['penghuni']
 
 # JWT configuration
