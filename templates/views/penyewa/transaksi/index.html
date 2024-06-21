@@ -1,0 +1,108 @@
+<!-- Header -->
+{% include '/penyewa/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/penyewa/dashboard/navbar_homepage.html' %}
+
+<main id="main" class="main">
+  <section id="transaksi" class="container">
+    <div class="row">
+
+      <div class="pagetitle">
+        <h1>Transaksi</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{{ url_for('views.homepage') }}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Transaksi</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+
+      <!-- Left side columns -->
+      <div class="col-lg-12">
+        <div class="row">
+          <!-- Recent Sales -->
+          <div class="card recent-sales overflow-auto"> 
+            
+              <h5 class="card-title">Data <span>| Transaksi</span></h5>
+              
+              <div class="btn_tambah">
+                <a href="{{ url_for('views.tambah_transaksi_penyewa') }}" class="btn btn-success">Tambah Data</a>
+              </div>
+
+              <table id="example"  class="table table-bordered table-striped table-hover">
+                <thead>
+                  <tr style="vertical-align: middle;">
+                    <th scope="col" style="text-align: center;">No</th>
+                    <th scope="col" style="text-align: center;">Gambar</th>
+                    <th scope="col" style="text-align: center;">Nama</th>
+                    <th scope="col" style="text-align: center;">Kontrakan</th>
+                    <th scope="col" style="text-align: center;">Total Bayar</th>
+                    <th scope="col" style="text-align: center;">Status</th>
+                    <th scope="col" style="text-align: center;">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for transaksi in list_transaksi %}
+                  <tr style="vertical-align: middle;">
+                    <td style="text-align: center;" scope="row">{{ loop.index }}</td>
+                    <td style="text-align: center;">
+                      <img src="{{ url_for('static', filename=transaksi.bukti_pembayaran.split('static/')[-1].replace('\\', '/')) }}" alt="Gambar Transaksi" class="img-fluid" style="max-width: 150px; max-height: 150px" />
+                    </td>
+                    <td style="text-align: center;">{{ transaksi.nama_penghuni }}</td>
+                    <td style="text-align: center;">{{ transaksi.nama_kontrakan }}</td>
+                    <td style="text-align: center;">{{ transaksi.total_harga }}</td>
+                    <td style="text-align: center;">
+                      {% if transaksi.status == "Sudah Divalidasi" %}
+                      <button class="btn btn-success">Sudah Divalidasi</button>
+                      {% elif transaksi.status == "Belum Divalidasi" %}
+                      <button class="btn btn-danger">Belum Divalidasi</button>
+                      {% endif %}
+                    </td>
+                    <td style="text-align: center;">
+                      <div class="button-container">
+                        <!-- <a href="{{ url_for('views.edit_transaksi_penyewa', transaksi_id=transaksi._id) }}" class="btn btn-warning">Edit</a> -->
+                        <a href="{{ url_for('views.detail_transaksi_penyewa', transaksi_id=transaksi._id) }}" class="btn btn-primary">Detail</a>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- End Recent Sales --> 
+      <!-- End Left side columns -->
+    </div>
+  </section>
+</main>
+<!-- End #main -->
+
+<!-- footer -->
+{% include '/penyewa/dashboard/footer.html' %}
+
+<script>
+  function confirmDelete(namaKeluhan) {
+    return confirm('Apakah anda yakin ingin menghapus Keluhan ' + namaKeluhan + '?');
+  }
+
+  // SweetAlert for flash messages
+  document.addEventListener('DOMContentLoaded', function() {
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          Swal.fire({
+            title: "{{ 'Error' if category == 'error' else 'Success' }}",
+            text: "{{ message }}",
+            icon: "{{ 'error' if category == 'error' else 'success' }}",
+            confirmButtonText: 'OK'
+          });
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  });
+</script>

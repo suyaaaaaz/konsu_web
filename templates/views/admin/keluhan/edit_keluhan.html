@@ -1,0 +1,188 @@
+<!-- Header -->
+{% include '/admin/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/admin/dashboard/sidebar.html' %}
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Edit Keluhan</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('homepage_admin') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('views.keluhan') }}">Keluhan</a></li>
+        <li class="breadcrumb-item active">Edit Keluhan</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <!-- Alert untuk menampilkan pesan error -->
+  <div id="error-alert" class="alert alert-danger mt-2" style="display: none"></div>
+
+  <section class="section">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" style="text-align: center">EDIT DATA KELUHAN</h5>
+
+            <!-- Multi Columns Form -->
+            <form class="row g-3" id="form-keluhan" action="{{ url_for('views.edit_keluhan', keluhan_id=keluhan._id) }}" method="post" enctype="multipart/form-data">
+              
+              <div class="col-md-6">
+                <label for="penghuni" class="form-label">Nama Penghuni</label>
+                <input type="text" class="form-control" id="penghuni" name="penghuni" value="{{ keluhan.nama_penghuni }}" readonly /> 
+                <!-- Input type hidden untuk menyimpan ID penghuni -->
+                <input type="hidden" id="penghuni_id" name="penghuni_id" value="{{ keluhan.penghuni_id }}">
+                <div id="penghuni-alert" class="alert alert-danger mt-2" style="display: none">Nama penghuni harus dipilih !!!</div>
+            </div>
+            
+              <div class="col-md-6">
+                <label for="kontrakan" class="form-label">Nama Kontrakan</label>
+                <select class="form-control" id="kontrakan" name="kontrakan">
+                  <option selected value="{{ keluhan.kontrakan_id }}">{{ keluhan.nama_kontrakan }}</option>
+                  {% for k in kontrakan %}
+                    <option value="{{ k._id }}" {% if keluhan.kontrakan_id == k._id %}selected{% endif %}>{{ k.nama_kontrakan }}</option>
+                  {% endfor %}
+                </select>
+                <div id="kontrakan-alert" class="alert alert-danger mt-2" style="display: none">Nama kontrakan harus dipilih.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="tgl_keluhan" class="form-label">Tanggal Keluhan</label>
+                <input type="date" class="form-control" id="tgl_keluhan" name="tgl_keluhan" value="{{ keluhan.tgl_keluhan }}">
+                <div id="tgl_keluhan-alert" class="alert alert-danger mt-2" style="display: none">Tanggal keluhan harus diisi.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Status Validasi</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" id="status1" name="status" value="Sudah Divalidasi" {% if keluhan.status == "Sudah Divalidasi" %}checked{% endif %}>
+                  <label class="form-check-label" for="status1">Sudah Divalidasi</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" id="status2" name="status" value="Belum Divalidasi" {% if keluhan.status == "Belum Divalidasi" %}checked{% endif %}>
+                  <label class="form-check-label" for="status2">Belum Divalidasi</label>
+                </div>
+                <div id="status-alert" class="alert alert-danger mt-2" style="display: none">Status validasi harus dipilih.</div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="keluhan_penghuni" class="form-label">Keluhan Penghuni</label>
+                <textarea class="form-control" id="keluhan_penghuni" name="keluhan_penghuni" rows="4">{{ keluhan.keluhan_penghuni }}</textarea>
+                <div id="keluhan_penghuni-alert" class="alert alert-danger mt-2" style="display: none">Keluhan penghuni harus diisi.</div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="gambar_keluhan" class="form-label">Gambar Keluhan</label>
+                <img class="form-control"
+                     id="image-preview"
+                     src="{{ url_for('static', filename='upload/keluhan/' + keluhan.gambar_keluhan.split('/')[-1].split('\\')[-1]) }}"
+                     alt="image-Preview"
+                     style="max-width: 100%; max-width: 200px; margin-top: 10px"
+                />
+              </div>
+              
+              <div class="col-md-10">
+                <input type="file" class="form-control" id="gambar_keluhan" name="gambar_keluhan" accept="image/*">
+                <div id="gambar_keluhan-alert" class="alert alert-danger mt-2" style="display: none">Gambar keluhan harus dipilih.</div>
+              </div>
+              
+              <div class="text-center mt-3">
+                <button type="button" class="btn btn-primary" onclick="validateForm()" >Update Data</button>
+                <a href="{{ url_for('views.keluhan') }}" class="btn btn-danger">Kembali</a>
+              </div>
+            </form>
+            <!-- End Multi Columns Form -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->
+
+<!-- footer -->
+{% include '/admin/dashboard/footer.html' %}
+
+
+<script>
+
+  document.getElementById("form-keluhan").addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default form submission
+    validateForm(); // Validate form
+  });
+
+  function validateForm() { 
+    var kontrakan = document.getElementById("kontrakan").value;
+    var tgl_keluhan = document.getElementById("tgl_keluhan").value;
+    var status1 = document.getElementById("status1").checked;
+    var status2 = document.getElementById("status2").checked;
+    var keluhan_penghuni = document.getElementById("keluhan_penghuni").value;
+
+    var isValid = true;
+
+    if (kontrakan === "") {
+      document.getElementById("kontrakan-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("kontrakan-alert").style.display = "none";
+    }
+
+    if (tgl_keluhan === "") {
+      document.getElementById("tgl_keluhan-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("tgl_keluhan-alert").style.display = "none";
+    }
+
+    if (!status1 && !status2) {
+      document.getElementById("status-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("status-alert").style.display = "none";
+    }
+
+    if (keluhan_penghuni === "") {
+      document.getElementById("keluhan_penghuni-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("keluhan_penghuni-alert").style.display = "none";
+    }
+
+    if (isValid) {
+      Swal.fire({
+        title: 'Success',
+        text: 'Data Keluhan Berhasil Diupdate!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        document.getElementById("form-keluhan").submit(); // Submit form
+      });
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: "Data Keluhan Gagal Diupdate!",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      document.getElementById("error-alert").innerText = "Data Keluhan Gagal Diupdate!";
+      document.getElementById("error-alert").style.display = "block";
+    }
+  }
+
+  // Preview gambar ketika dipilih
+  document.getElementById("gambar_keluhan").onchange = function () {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      document.getElementById("image-preview").src = e.target.result;
+      document.getElementById("image-preview").style.display = "block";
+    };
+
+    reader.readAsDataURL(this.files[0]);
+  };
+
+   
+</script>

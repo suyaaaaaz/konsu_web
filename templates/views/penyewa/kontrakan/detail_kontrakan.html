@@ -1,0 +1,78 @@
+<!-- Header -->
+{% include '/penyewa/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/penyewa/dashboard/navbar_homepage.html' %}
+
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Detail Kontrakan</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('views.homepage') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('views.kontrakan') }}">Kontrakan</a></li>
+         <li class="breadcrumb-item active">Detail Kontrakan</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align: center;">DETAIL DATA KONTRAKAN</h5>
+
+                        <!-- Multi Columns Form -->
+                        <form class="row g-3">
+                            {% if data %}
+                            <div class="col-md-6">
+                                <label for="inputNamaKontrakan" class="form-label">Nama Kontrakan</label>
+                                <input type="text" class="form-control" id="inputNamaKontrakan" value="{{ data.nama_kontrakan }}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputHarga" class="form-label">Harga Kontrakan</label>
+                                <input type="text" class="form-control" id="inputHarga" value="Rp {{ data.harga}}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputKapasitas" class="form-label">Kapasitas Kontrakan</label>
+                                <input type="text" class="form-control" id="inputKapasitas" value="{{ data.kapasitas }} orang" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputStatus" class="form-label">Status</label>
+                                <input type="text" class="form-control" id="inputStatus" value="{{ data.status }}" readonly>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="inputAlamat" class="form-label">Alamat Kontrakan</label>
+                                <input type="text" class="form-control" id="inputAlamat" value="{{ data.alamat }}" readonly>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="inputGambar" class="form-label">Foto Kontrakan</label>
+                                <div>
+                                    <img id="image-preview" src="{{ url_for('static', filename='upload/kontrakan/' + data.gambar.split('/')[-1]) }}" alt="Foto Kontrakan" style="max-width: 200px; margin-top: 10px;">
+                                </div>
+                            </div>  
+                            <div class="text-center mt-3">
+                                <a href="{{ url_for('views.penyewa_kontrakan') }}" class="btn btn-danger">Kembali</a>
+                            </div>
+                            {% endif %}
+    
+                        </form>
+                        <!-- End Multi Columns Form -->
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- footer -->
+{% include '/penyewa/dashboard/footer.html' %}
+
+ 

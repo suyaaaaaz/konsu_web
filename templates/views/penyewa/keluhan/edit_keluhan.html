@@ -1,0 +1,144 @@
+<!-- Header -->
+{% include '/penyewa/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/penyewa/dashboard/navbar_homepage.html' %}
+
+<!-- Start Main -->
+<main id="main" class="main">    
+    <section class="section">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="pagetitle">
+                <h1>Edit Keluhan</h1>
+                <nav>
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('views.homepage') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('views.penyewa_keluhan') }}">Keluhan</a></li>
+                    <li class="breadcrumb-item active">Edit Keluhan</li>
+                  </ol>
+                </nav>
+              </div><!-- End Page Title -->
+  
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title" style="text-align: center;">EDIT DATA KELUHAN</h5>
+  
+                  <!-- Multi Columns Form -->
+                  <form class="row g-3" id="form-keluhan" action="{{ url_for('views.edit_keluhan_penyewa', keluhan_id=keluhan._id) }}" method="POST" enctype="multipart/form-data">
+                     <!-- Nama Penghuni -->
+                     <div class="col-md-6">
+                      <label for="inputPenghuni" class="form-label">Nama Penghuni</label>
+                      <input type="text" id="inputPenghuni" class="form-control" name="penghuni" value="{{ current_user.nama }}" readonly>
+                      <input type="hidden" name="penghuni_id" value="{{ current_user._id }}"> <!-- Hidden input untuk penghuni_id -->
+                      <div id="nama-alert" class="alert alert-danger mt-2" style="display: none;">Nama penghuni harus dipilih !!!</div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <label for="kontrakan" class="form-label">Nama Kontrakan</label>
+                      <select class="form-control" id="kontrakan" name="kontrakan">
+                        {% for k in kontrakan %}
+                          <option value="{{ k._id }}" {% if k._id == keluhan.kontrakan_id %} selected {% endif %}>{{ k.nama_kontrakan }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+ 
+
+                    <div class="col-md-6">
+                      <label for="tgl_keluhan" class="form-label">Tanggal Keluhan</label>
+                      <input type="date" class="form-control" id="tgl_keluhan" name="tgl_keluhan" value="{{ keluhan.tgl_keluhan }}">
+                    </div>
+
+             
+
+                    <div class="col-md-12">
+                      <label for="keluhan_penghuni" class="form-label">Keluhan Penghuni</label>
+                      <textarea class="form-control" id="keluhan_penghuni" name="keluhan_penghuni" rows="4">{{ keluhan.keluhan_penghuni }}</textarea>
+                    </div>
+
+                    <div class="col-md-12">
+                      <label for="gambar_keluhan" class="form-label">Gambar Keluhan</label>
+                      <img class="form-control"
+                      id="image-preview"
+                      src="{{ url_for('static', filename='upload/keluhan/' + keluhan.gambar_keluhan.split('/')[-1].split('\\')[-1]) }}"
+                      alt="image-Preview"
+                      style="max-width: 100%; max-width: 200px; margin-top: 10px"
+                    />
+                    </div>
+
+                    <div class="col-md-10">
+                      <input type="file" class="form-control" id="gambar_keluhan" name="gambar_keluhan" accept="image/*">
+                        <div id="gambar_keluhan-alert" class="alert alert-danger mt-2" style="display: none">Gambar keluhan harus dipilih.</div>
+                    </div>
+                    
+
+                    <div class="text-center mt-3">
+                      <button type="button" class="btn btn-success" onclick="validateForm()">Update Data</button>
+                      <a href="{{ url_for('views.penyewa_keluhan') }}" class="btn btn-danger">Kembali</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+  
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- footer -->
+{% include '/penyewa/dashboard/footer.html' %}
+
+<script>
+    function validateForm() {
+        event.preventDefault();
+
+        var kontrakan = document.getElementById("kontrakan").value;
+        var tgl_keluhan = document.getElementById("tgl_keluhan").value;
+        var status2 = document.getElementById("status2").checked;
+        var gambar_keluhan = document.getElementById("gambar_keluhan").value;
+        var keluhan_penghuni = document.getElementById("keluhan_penghuni").value;
+
+        var isValid = true;
+
+        if (kontrakan === "") {
+            alert("Nama kontrakan harus dipilih.");
+            isValid = false;
+        }
+
+        if (tgl_keluhan === "") {
+            alert("Tanggal keluhan harus diisi.");
+            isValid = false;
+        }
+ 
+
+        if (keluhan_penghuni === "") {
+            alert("Keluhan penghuni harus diisi.");
+            isValid = false;
+        }
+
+        if (isValid) {
+          Swal.fire({
+            title: 'Success',
+            text: 'Data Keluhan Berhasil Diupdate!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            document.getElementById("form-keluhan").submit(); // Submit form
+          });
+        } else {
+            alert("Data Keluhan Gagal Diupdate!"); // Display an alert if the form is not valid
+        }
+    }
+
+    // Preview gambar ketika dipilih
+    document.getElementById("gambar_keluhan").onchange = function () {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            document.getElementById("image-preview").src = e.target.result;
+            document.getElementById("image-preview").style.display = "block";
+        };
+
+        reader.readAsDataURL(this.files[0]);
+    };
+</script>

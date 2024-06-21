@@ -1,0 +1,158 @@
+<!-- Header -->
+{% include '/penyewa/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/penyewa/dashboard/navbar_homepage.html' %}
+
+<main id="main" class="main">
+  <div class="pagetitle text-center">
+    <h1>Edit Penghuni</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('views.homepage') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Setting Account</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <!-- Alert untuk menampilkan pesan error -->
+  <div id="error-alert" class="alert alert-danger mt-2" style="display: none"></div>
+
+  <!-- Alert untuk menampilkan pesan sukses -->
+  <div id="success-alert" class="alert alert-success mt-2" style="display: none"></div>
+
+  <section class="section">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title text-center">Setting Account</h5>
+
+            <!-- Multi Columns Form -->
+            <form
+              id="form-penghuni"
+              action="{{ url_for('views.update_account_penghuni', user_id=penghuni._id) }}"
+              method="POST"
+              enctype="multipart/form-data"
+              class="row g-3"
+            >
+              <!-- Form fields -->
+              <div class="col-md-4">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  id="inputEmail"
+                  placeholder="Masukkan Email Penghuni"
+                  value="{{ penghuni.email }}"
+                />
+                <div id="email-alert" class="alert alert-danger" style="display: none; margin-top: 5px">
+                  Email harus diisi.
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="inputName" class="form-label">Nama Penghuni</label>
+                <input
+                  type="text"
+                  name="nama"
+                  class="form-control"
+                  id="inputName"
+                  placeholder="Masukkan Nama Penghuni"
+                  value="{{ penghuni.nama }}"
+                />
+                <div id="nama-alert" class="alert alert-danger" style="display: none; margin-top: 5px">
+                  Nama harus diisi.
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control"
+                  id="inputPassword"
+                  placeholder="Masukkan Password Penghuni (leave blank to keep current password)"
+                />
+                <div id="password-alert" class="alert alert-danger" style="display: none; margin-top: 5px">
+                  Password harus diisi.
+                </div>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Update Data</button>
+                <a href="{{ url_for('views.homepage') }}" class="btn btn-danger">Kembali</a>
+              </div>
+            </form>
+            <!-- End Multi Columns Form -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->
+
+<!-- footer -->
+{% include '/penyewa/dashboard/footer.html' %}
+
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.getElementById("form-penghuni").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent default form submission
+      validateForm(); // Validate form
+  });
+
+  function validateForm() {
+      var nama = document.getElementById('inputName').value;
+      var email = document.getElementById('inputEmail').value; 
+    
+      var isValid = true;
+
+      if (nama === '') {
+          document.getElementById('nama-alert').style.display = 'block';
+          isValid = false;
+      } else {
+          document.getElementById('nama-alert').style.display = 'none';
+      }
+
+      if (email === '') {
+          document.getElementById('email-alert').style.display = 'block';
+          isValid = false;
+      } else {
+          document.getElementById('email-alert').style.display = 'none';
+      }
+  
+      if (isValid) { 
+          submitForm(); // Proceed to submit form
+      } else {
+          showErrorAlert();
+      }
+  }
+
+  function submitForm() {
+      Swal.fire({
+          icon: 'success',
+          title: 'Akun Berhasil Diupdate!',
+          text: 'Akun Berhasil Diupdate!',
+          confirmButtonText: 'OK'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              document.getElementById("form-penghuni").submit(); // Submit form after the alert is confirmed
+          }
+      });
+  }
+
+  function showErrorAlert() {
+      Swal.fire({
+          icon: 'error',
+          title: 'Akun Penghuni Gagal Diupdate!',
+          text: 'Data Penghuni Gagal Diupdate!'
+      });
+  }
+</script>

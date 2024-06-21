@@ -1,0 +1,107 @@
+<!-- Header -->
+{% include '/penyewa/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/penyewa/dashboard/navbar_homepage.html' %}
+
+<main id="main" class="main">
+    <section id="transaksi" class="container">
+        <div class="row justify-content-center">
+            <div class="pagetitle">
+                <h1>Detail Transaksi</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('views.homepage') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('views.penyewa_transaksi') }}">Transaksi</a></li>
+                        <li class="breadcrumb-item active">Detail Transaksi</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- End Page Title -->
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align: center">DETAIL DATA TRANSAKSI</h5>
+
+                        <div class="row mb-3">
+                            <label for="detailPenghuni" class="col-sm-4 col-form-label">Nama Penghuni</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="detailPenghuni" readonly value="{{ transaksi.nama_penghuni }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="detailTglPembayaran" class="col-sm-4 col-form-label">Tanggal Pembayaran</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="detailTglPembayaran" readonly value="{{ transaksi.tgl_pembayaran }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="detailKontrakan" class="col-sm-4 col-form-label">Nama Kontrakan</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="detailKontrakan" readonly value="{{ transaksi.nama_kontrakan }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="detailHarga" class="col-sm-4 col-form-label">Harga /Bulan</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="detailHarga" readonly value="{{ transaksi.harga_perbulan }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="detailJumlahSewa" class="col-sm-4 col-form-label">Jumlah Sewa /Bulan</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="detailJumlahSewa" readonly value="{{ transaksi.jumlah_sewa }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="detailTotalHarga" class="col-sm-4 col-form-label">Total Harga</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="detailTotalHarga" readonly value="{{ transaksi.total_harga }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="detailUangBayar" class="col-sm-4 col-form-label">Uang Bayar</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="detailUangBayar" readonly value="{{ transaksi.uang_bayar }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="detailKembalian" class="col-sm-4 col-form-label">Kembalian</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="detailKembalian" readonly value="{{ transaksi.kembalian }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="detailStatus" class="col-sm-4 col-form-label">Status</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="detailStatus" readonly value="{{ transaksi.status }}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="detailBuktiPembayaran" class="col-sm-4 col-form-label">Bukti Pembayaran</label>
+                            <div class="col-sm-8">
+                                <img src="{{ url_for('static', filename='upload/transaksi/' + transaksi.bukti_pembayaran.split('/')[-1].split('\\')[-1]) }}" alt="" style="max-width: 200px; max-height: 200px;">
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <a href="{{ url_for('views.penyewa_transaksi') }}" class="btn btn-danger">Kembali</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- footer -->
+{% include '/penyewa/dashboard/footer.html' %}

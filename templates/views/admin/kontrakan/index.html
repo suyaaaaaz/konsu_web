@@ -1,0 +1,150 @@
+<!-- Header -->
+{% include '/admin/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/admin/dashboard/sidebar.html' %}
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Kelola Kontrakan</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('homepage_admin') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Kontrakan</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+
+      <!-- Left side columns -->
+      <div class="col-lg-12">
+        <div class="row">
+ 
+          <!-- Recent Sales -->
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title">Data <span>| Kontrakan</span></h5>
+                <div class="btn_tambah mb-3">
+                  <a href="{{ url_for('views.tambah_kontrakan') }}" class="btn btn-success">
+                    Tambah Data
+                  </a>
+                </div>
+
+                <table class="table table-borderless datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">No</th>
+                      <th scope="col">Gambar</th>
+                      <th scope="col">Nama</th>
+                      <th scope="col">Kapasitas</th>
+                      <th scope="col">Tipe</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in kontrakan %}
+                    <tr style="vertical-align: middle;">
+                      <td scope="row">{{ loop.index }}</td>
+                      <td>
+                        <img
+                          src="{{ url_for('static', filename='upload/kontrakan/' + item.gambar.split('/')[-1].split('\\')[-1]) }}"
+                          alt="Gambar Kontrakan"
+                          class="img-fluid"
+                          style="max-width: 200px"
+                        />
+                      </td>
+                      <td>{{ item.nama_kontrakan }}</td>
+                      <td>{{ item.kapasitas }} Orang</td>
+                      <td>{{ item.tipeKontrakan }}</td>
+                      <td>
+                        {% if item.status == 'Kosong' %}
+                          <button class="btn btn-success">{{ item.status }}</button>
+                        {% elif item.status == 'Booking' %}
+                          <button class="btn btn-warning">{{ item.status }}</button>
+                        {% elif item.status == 'Penuh' %}
+                          <button class="btn btn-danger">{{ item.status }}</button>
+                        {% elif item.status == 'Diperbaiki' %}
+                          <button class="btn btn-dark">{{ item.status }}</button>
+                        {% else %}
+                          <button class="btn btn-secondary">{{ item.status }}</button>
+                        {% endif %}
+                      </td>
+                      <td>
+                        <div class="button-container">
+                          <a href="{{ url_for('views.edit_kontrakan', kontrakan_id=item._id) }}" class="btn btn-primary">Edit</a>
+                          <a href="{{ url_for('views.detail_kontrakan', kontrakan_id=item._id) }}" class="btn btn-warning">Detail</a>
+                          <form
+                            action="{{ url_for('views.hapus_kontrakan', kontrakan_id=item._id) }}"
+                            method="POST"
+                            id="deleteForm-{{ item._id }}"
+                            style="display:inline"
+                          >
+                            <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ item.nama_kontrakan }}', '{{ item._id }}')">Delete</button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- End Recent Sales -->
+        </div>
+      </div><!-- End Left side columns -->
+    </div>
+  </section>
+</main><!-- End #main -->
+
+<!-- footer -->
+{% include '/admin/dashboard/footer.html' %}
+
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  function confirmDelete(namaKontrakan, formId) {
+    Swal.fire({
+      title: 'Konfirmasi Hapus',
+      text: `Apakah Anda yakin ingin menghapus kontrakan ${namaKontrakan}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Hapus!',
+      cancelButtonText: 'Batal',
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('deleteForm-' + formId).submit(); // Submit the form if confirmed
+      }
+    });
+  }
+
+  // SweetAlert for flash messages
+  document.addEventListener('DOMContentLoaded', function() {
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+          Swal.fire({
+            title: "{{ 'Error' if category == 'error' else 'Success' }}",
+            text: "{{ message }}",
+            icon: "{{ 'error' if category == 'error' else 'success' }}",
+            confirmButtonText: 'OK',
+            customClass: {
+              confirmButton: 'btn btn-success', 
+          },
+          buttonsStyling: false
+          });
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  });
+</script>

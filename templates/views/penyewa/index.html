@@ -1,0 +1,154 @@
+<!-- Header -->
+{% include '/penyewa/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/penyewa/dashboard/navbar_homepage.html' %}
+
+<!-- Start main  -->
+<main id="main">
+  <section id="dashboard" class="container">
+    <div class="row">
+      <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{{ url_for('views.homepage') }}">Dashboard</a>
+            </li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+
+      <!-- Left side columns -->
+      <div class="col-lg-5">
+        <div class="row">
+          <!-- Kontrakan Card -->
+          <div class="col-md-12 mb-3">
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <h5 class="card-title">Total <span>| Kontrakan</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-house"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{ kontrakan_count }} Kontrakan</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Kontrakan Card -->
+          
+          <!-- Booking Card -->
+          <div class="col-md-12 mb-3">
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <h5 class="card-title">Total <span>| Booking Kontrakan</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-cart"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{ transaksi_count }} Booking Kontrakan </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Booking Card -->
+
+          <!-- Keluhan Card -->
+          <div class="col-md-12 mb-3">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+                <h5 class="card-title">Total <span>| Riwayat Keluhan</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{ keluhan_count }} Keluhan</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Keluhan Card -->
+
+          <!-- Transaksi Card -->
+          <div class="col-md-12 mb-3">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">Total <span>| Transaksi</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-currency-dollar"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{ transaksi_total }}</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Transaksi Card -->
+        </div>
+      </div>
+      <!-- End Left side columns -->
+
+      <!-- Right side columns -->
+      <div class="col-lg-7">
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title">Riwayat | Keluhan Penghuni</h5>
+
+            <table id="example" class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th style="text-align: center;" scope="col">No</th>
+                  <th style="text-align: center;" scope="col">Gambar</th>
+                  <th style="text-align: center;" scope="col">Nama</th>
+                  <th style="text-align: center;" scope="col">Kontrakan</th>
+                  <th style="text-align: center;" scope="col">Tgl</th>
+                  <th style="text-align: center;" scope="col">Status</th>
+                  <th style="text-align: center;" scope="col">Keluhan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for keluhan in data_keluhan %}
+                {% if keluhan.status == "Sudah Divalidasi" %}
+                 <tr style="vertical-align: middle;">
+                  <td style="text-align: center;">{{ loop.index }}</td>
+                  <td style="text-align: center;">
+                    <img src="{{ url_for('static', filename=keluhan.gambar_keluhan.split('static/')[-1].replace('\\', '/')) }}" alt="Gambar Keluhan" class="img-fluid" style="max-width: 150px; max-height: 150px;">
+                  </td>
+                  <td style="text-align: center;">{{ keluhan.nama_penghuni }}</td>
+                  <td style="text-align: center;">{{ keluhan.nama_kontrakan }}</td>
+                  <td style="text-align: center;">{{ keluhan.tgl_keluhan }}</td>
+                  <td style="text-align: center;">
+                    {% if keluhan.status == "Sudah Divalidasi" %}
+                    <button class="btn btn-success">Sudah Divalidasi</button>
+                    {% elif keluhan.status == "Belum Divalidasi" %}
+                    <button class="btn btn-danger">Belum Divalidasi</button>
+                    {% endif %}
+                  </td>
+                  <td>{{ keluhan.keluhan_penghuni }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- End Right side columns -->
+    </div>
+  </section>
+  <!-- end section dashboard -->
+</main>
+<!-- End #main -->
+
+<!-- footer -->
+{% include '/penyewa/dashboard/footer.html' %}

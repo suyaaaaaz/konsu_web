@@ -1,0 +1,190 @@
+.datatable-wrapper.no-header .datatable-container {
+    border-top: 1px solid #d9d9d9;
+}
+
+.datatable-wrapper.no-footer .datatable-container {
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.datatable-top,
+.datatable-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    flex-wrap: wrap;
+}
+
+.datatable-selector,
+.datatable-input,
+.datatable-info {
+    padding: 6px;
+}
+
+.datatable-info {
+    margin: 7px 0;
+}
+
+/* PAGER */
+.datatable-pagination ul {
+    margin: 0;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.datatable-pagination li {
+    list-style: none;
+}
+
+.datatable-pagination a {
+    border: 1px solid transparent;
+    margin-left: 2px;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+}
+
+.datatable-pagination a:hover,
+.datatable-pagination .datatable-active a,
+.datatable-pagination .datatable-active a:focus,
+.datatable-pagination .datatable-active a:hover {
+    background-color: #d9d9d9;
+}
+
+.datatable-pagination .datatable-ellipsis a,
+.datatable-pagination .datatable-disabled a {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.4;
+}
+
+/* TABLE */
+.datatable-table {
+    max-width: 100%;
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.datatable-table th,
+.datatable-table td {
+    padding: 8px 10px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #d9d9d9;
+}
+
+.datatable-table th {
+    background-color: #f9f9f9;
+    text-align: center;
+    border-bottom: 2px solid #d9d9d9;
+}
+
+.datatable-sorter,
+.datatable-filter {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+.datatable-sorter::before,
+.datatable-sorter::after,
+.datatable-filter::before {
+    content: "";
+    position: absolute;
+    right: 4px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    opacity: 0.2;
+}
+
+.datatable-sorter::before {
+    border-top: 4px solid #000;
+    bottom: 0;
+}
+
+.datatable-sorter::after {
+    border-bottom: 4px solid #000;
+    top: 0;
+}
+
+.datatable-ascending .datatable-sorter::after,
+.datatable-descending .datatable-sorter::before {
+    opacity: 0.6;
+}
+
+.datatable-filter::before {
+    border-top: 10px solid #000;
+    top: 25%;
+}
+
+.datatable-filter-active .datatable-filter::before {
+    opacity: 0.6;
+}
+
+.datatable-empty {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+.datatable-top::after,
+.datatable-bottom::after {
+    clear: both;
+    content: " ";
+    display: table;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .datatable-top,
+    .datatable-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .datatable-pagination ul {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .datatable-pagination li {
+        margin-bottom: 5px;
+    }
+}
+
+/* CSS Tombol Aksi */
+.button-container {
+    text-align: center;
+}
+
+.button-container a {
+    display: block;
+    width: 100px;
+    margin: 0 auto 10px;
+}
+
+.btn_tambah {
+    text-align: left;
+    margin: 10px;
+}
+
+.btn_tambah button {
+    margin: 10px auto;
+}
+
+/* Atur tombol untuk layar kecil */
+@media (max-width: 575.98px) {
+    .btn_tambah {
+        text-align: left;
+        margin-bottom: 0;
+    }
+    .btn_tambah button {
+        display: block;
+        margin: 0;
+        margin-top: 10px;
+    }
+}

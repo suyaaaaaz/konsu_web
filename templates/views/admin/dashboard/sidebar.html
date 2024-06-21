@@ -1,0 +1,45 @@
+{% set current_path = request.path %}
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item">
+      <a class="nav-link {% if current_path == url_for('homepage_admin') %}active{% endif %}" href="{{ url_for('homepage_admin') }}">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {% if 'penghuni' in current_path or 'kontrakan' in current_path or 'transaksi' in current_path or 'keluhan' in current_path %}collapsed{% else %}collapsed{% endif %}" data-bs-target="#data-nav" data-bs-toggle="collapse" href="#">
+        <i class="ri-account-box-line"></i><span>KELOLA DATA</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="data-nav" class="nav-content collapse {% if 'penghuni' in current_path or 'kontrakan' in current_path or 'transaksi' in current_path or 'keluhan' in current_path %}show{% endif %}" data-bs-parent="#sidebar-nav">
+        <li>
+          <a class="{% if 'penghuni' in current_path %}active{% endif %}" href="{{ url_for('views.penghuni') }}">
+            <i class="bi bi-circle"></i><span>PENGHUNI</span>
+          </a>
+        </li>
+        <li>
+          <a class="{% if 'kontrakan' in current_path %}active{% endif %}" href="{{ url_for('views.kontrakan') }}">
+            <i class="bi bi-circle"></i><span>KONTRAKAN</span>
+          </a>
+        </li>
+        <li>
+          <a class="{% if 'transaksi' in current_path %}active{% endif %}" href="{{ url_for('views.transaksi') }}">
+            <i class="bi bi-circle"></i><span>TRANSAKSI</span>
+          </a>
+        </li>
+        <li>
+          <a class="{% if 'keluhan' in current_path %}active{% endif %}" href="{{ url_for('views.keluhan') }}">
+            <i class="bi bi-circle"></i><span>KELUHAN</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+  </ul>
+</aside>
+<!-- End Sidebar -->

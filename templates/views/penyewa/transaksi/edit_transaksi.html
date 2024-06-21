@@ -1,0 +1,313 @@
+<!-- Header -->
+{% include '/penyewa/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/penyewa/dashboard/navbar_homepage.html' %}
+
+
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Edit Transaksi</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{ url_for('views.homepage') }}">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('views.penyewa_transaksi') }}">Transaksi</a></li>
+          <li class="breadcrumb-item active">Edit Transaksi</li>
+        </ol>
+      </nav>
+    </div>
+  
+    <!-- Alert untuk menampilkan pesan error -->
+    <div id="error-alert" class="alert alert-danger mt-2" style="display: none"></div>
+  
+    <!-- End Page Title -->
+    <section class="section">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" style="text-align: center">EDIT DATA TRANSAKSI</h5>
+  
+              <!-- Multi Columns Form -->
+              <form id="form-transaksi" class="row g-3" method="POST" action="{{ url_for('views.edit_transaksi', transaksi_id=transaksi._id) }}" enctype="multipart/form-data">
+                <!-- Nama Penghuni -->
+                <div class="col-md-10">
+                  <label for="inputPenghuni" class="form-label">Nama Penghuni</label>
+                  <select id="inputPenghuni" name="penghuni" class="form-select">
+                    <option selected value="{{ transaksi.penghuni._id }}">{{ transaksi.penghuni.nama }}</option>
+                    {% for p in penghuni %}
+                    <option value="{{ p._id }}">{{ p.nama }}</option>
+                    {% endfor %}
+                  </select>
+                  <div id="nama-alert" class="alert alert-danger mt-2" style="display: none">Nama penghuni harus dipilih !!!</div>
+                </div>
+  
+                <!-- Tgl Pembayaran -->
+                <div class="col-md-10">
+                  <label for="inputTglPembayaran" class="form-label">Tgl Pembayaran</label>
+                  <input type="date" class="form-control" id="inputTglPembayaran" name="tgl_pembayaran" value="{{ transaksi.tgl_pembayaran }}" />
+                  <div id="tgl_pembayaran-alert" class="alert alert-danger mt-2" style="display: none">Tanggal pembayaran harus diisi.</div>
+                </div>
+  
+                <!-- Nama Kontrakan -->
+                <div class="col-md-10">
+                  <label for="inputKontrakan" class="form-label">Nama Kontrakan</label>
+                  <select id="inputKontrakan" name="kontrakan" class="form-select">
+                    <option selected value="{{ transaksi.kontrakan._id }}" data-harga="{{ transaksi.kontrakan.harga }}">{{ transaksi.kontrakan.nama_kontrakan }}</option>
+                    {% for k in kontrakan %}
+                    <option value="{{ k._id }}" data-harga="{{ k.harga }}">{{ k.nama_kontrakan }}</option>
+                    {% endfor %}
+                  </select>
+                  <div id="kontrakan-alert" class="alert alert-danger mt-2" style="display: none">Nama kontrakan harus dipilih!!</div>
+                </div>
+  
+                <!-- Harga Kontrakan -->
+                <div class="col-md-5">
+                  <label for="inputHarga" class="form-label">Harga /Bulan</label>
+                  <input type="number" class="form-control" id="inputHarga" name="harga_perbulan" placeholder="Harga Kontrakan" readonly value="{{ transaksi.harga_perbulan }}" />
+                  <div id="harga-alert" class="alert alert-danger mt-2" style="display: none">Harga kontrakan harus diisi !!!</div>
+                </div>
+  
+                <!-- Jumlah Sewa /Bulan -->
+                <div class="col-md-5">
+                  <label for="inputJumlahSewa" class="form-label">Jumlah Sewa /Bulan</label>
+                  <input type="number" class="form-control" id="inputJumlahSewa" name="jumlah_sewa" placeholder="Masukkan Lama Sewa Kontrakan" value="{{ transaksi.jumlah_sewa }}" />
+                  <div id="jumlah_sewa-alert" class="alert alert-danger mt-2" style="display: none">Jumlah sewa kontrakan harus diisi !!!</div>
+                </div>
+  
+                <!-- Total Harga Kontrakan -->
+                <div class="col-md-10">
+                  <label for="inputTotalHarga" class="form-label">Total Harga</label>
+                  <input type="number" class="form-control" id="inputTotalHarga" name="total_harga" placeholder="Total Harga Kontrakan" readonly value="{{ transaksi.total_harga }}" />
+                  <div id="total_harga-alert" class="alert alert-danger mt-2" style="display: none">Total harga kontrakan harus diisi !!!</div>
+                </div>
+  
+                <!-- Uang Bayar Kontrakan -->
+                <div class="col-md-5">
+                  <label for="inputUangBayar" class="form-label">Uang Bayar</label>
+                  <input type="number" class="form-control" id="inputUangBayar" name="uang_bayar" placeholder="Masukkan Uang Bayar Kontrakan" value="{{ transaksi.uang_bayar }}" />
+                  <div id="uang_bayar-kurang-alert" class="alert alert-danger mt-2" style="display: none">Uang Anda kurang.</div>
+                  <div id="uang_bayar-cukup-alert" class="alert alert-success mt-2" style="display: none">Uang Anda cukup.</div>
+                  <div id="uang_bayar-alert" class="alert alert-danger mt-2" style="display: none">Jumlah uang bayar harus diisi !!!</div>
+                </div>
+  
+                <!-- Kembalian Kontrakan -->
+                <div class="col-md-5">
+                  <label for="inputKembalian" class="form-label">Kembalian</label>
+                  <input type="number" class="form-control" id="inputKembalian" name="kembalian" placeholder="Kembalian Kontrakan" readonly value="{{ transaksi.kembalian }}" />
+                  <div id="kembalian-alert" class="alert alert-danger mt-2" style="display: none">Jumlah kembalian kontrakan harus diisi !!!</div>
+                </div>
+  
+                <!-- Status Bayar -->
+                <div class="col-md-5">
+                  <label for="inputStatus" class="form-label">Status</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="status" id="status1" value="Sudah Divalidasi" {% if transaksi.status == 'Sudah Divalidasi' %}checked{% endif %} />
+                    <label class="form-check-label" for="status1">Sudah Divalidasi</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="status" id="status2" value="Belum Divalidasi" {% if transaksi.status == 'Belum Divalidasi' %}checked{% endif %} />
+                    <label class="form-check-label" for="status2">Belum Divalidasi</label>
+                  </div>
+                  <div id="status-alert" class="alert alert-danger mt-2" style="display: none">Status pembayaran harus dipilih.</div>
+                </div>
+  
+                <!-- Bukti Pembayaran -->
+                <div class="col-md-10">
+                  <label for="inputBuktiPembayaran" class="form-label">Bukti Pembayaran</label> 
+                  <input type="file" class="form-control" id="inputBuktiPembayaran" name="bukti_pembayaran" />
+                </div>
+                <div class="col-md-10">
+                  <img
+                  id="preview"
+                  src="{{ url_for('static', filename='upload/transaksi/' + transaksi.bukti_pembayaran.split('/')[-1].split('\\')[-1]) }}"
+                  alt="Preview"
+                  style="max-width: 200px; max-height: 200px; margin-top: 10px"
+                />
+                  <div id="bukti_pembayaran-alert" class="alert alert-danger mt-2" style="display: none">Bukti pembayaran harus diunggah.</div>
+                </div>
+  
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Simpan Data</button>
+                  <a href="{{ url_for('views.penyewa_transaksi') }}" class="btn btn-danger">Kembali</a>
+                </div>
+              </form>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<!-- footer -->
+{% include '/penyewa/dashboard/footer.html' %}
+
+<!-- Update kode JavaScript -->
+<script> 
+    // Update harga saat pilihan kontrakan berubah
+    document.getElementById("inputKontrakan").addEventListener("change", function() {
+      var selectedOption = this.options[this.selectedIndex];
+      var harga = selectedOption.getAttribute('data-harga');
+      document.getElementById("inputHarga").value = harga;
+      hitungTotalHarga(); // Panggil fungsi hitungTotalHarga setelah memperbarui harga
+  });
+  
+  // Fungsi untuk menghitung total harga
+  function hitungTotalHarga() {
+      var hargaKontrakan = parseFloat(document.getElementById("inputHarga").value);
+      var jumlahSewa = parseFloat(document.getElementById("inputJumlahSewa").value);
+      var totalHarga = hargaKontrakan * jumlahSewa;
+  
+      // Update nilai input total harga
+      document.getElementById("inputTotalHarga").value = totalHarga;
+      hitungKembalian(); // Panggil fungsi hitungKembalian setelah memperbarui total harga
+  }
+  
+  // Fungsi untuk menghitung kembalian
+  function hitungKembalian() {
+      var totalHarga = parseFloat(document.getElementById("inputTotalHarga").value);
+      var uangBayar = parseFloat(document.getElementById("inputUangBayar").value);
+      var kembalian = uangBayar - totalHarga;
+  
+      // Update nilai input kembalian
+      document.getElementById("inputKembalian").value = kembalian;
+      
+      // Validasi jumlah uang bayar
+      if (!isNaN(uangBayar) && uangBayar !== 0) {
+          if (uangBayar < totalHarga) {
+              document.getElementById("uang_bayar-kurang-alert").style.display = "block";
+              document.getElementById("uang_bayar-cukup-alert").style.display = "none";
+          } else {
+              document.getElementById("uang_bayar-kurang-alert").style.display = "none";
+              document.getElementById("uang_bayar-cukup-alert").style.display = "block";
+          }
+      } else {
+          document.getElementById("uang_bayar-kurang-alert").style.display = "block";
+          document.getElementById("uang_bayar-cukup-alert").style.display = "none";
+      }
+  }
+  
+  // Event listener untuk menghitung total harga saat jumlah sewa berubah
+  document.getElementById("inputJumlahSewa").addEventListener("input", hitungTotalHarga);
+  
+  // Event listener untuk menghitung kembalian saat uang bayar berubah
+  document.getElementById("inputUangBayar").addEventListener("input", hitungKembalian);
+  
+  
+  
+  // Attach validateForm function to the form's submit event
+  document.getElementById("form-transaksi").addEventListener("submit", validateForm);
+  
+  function validateForm(event) {
+    event.preventDefault();
+  
+    var namaPenghuni = document.getElementById("inputPenghuni").value;
+    var tglPembayaran = document.getElementById("inputTglPembayaran").value;
+    var namaKontrakan = document.getElementById("inputKontrakan").value;
+    var hargaKontrakan = document.getElementById("inputHarga").value;
+    var jumlahSewa = document.getElementById("inputJumlahSewa").value;
+    var totalHarga = document.getElementById("inputTotalHarga").value;
+    var uangBayar = document.getElementById("inputUangBayar").value;
+    var kembalian = document.getElementById("inputKembalian").value;
+    var statusInputs = document.querySelectorAll('input[name="status"]:checked'); 
+  
+    var isValid = true;
+  
+    // Nama Penghuni
+    if (namaPenghuni === "") {
+      document.getElementById("nama-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("nama-alert").style.display = "none";
+    }
+  
+    // Tanggal Pembayaran
+    if (tglPembayaran === "") {
+      document.getElementById("tgl_pembayaran-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("tgl_pembayaran-alert").style.display = "none";
+    }
+  
+    // Nama Kontrakan
+    if (namaKontrakan === "") {
+      document.getElementById("kontrakan-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("kontrakan-alert").style.display = "none";
+    }
+  
+    // Harga Kontrakan
+    if (hargaKontrakan === "" || isNaN(hargaKontrakan)) {
+      document.getElementById("harga-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("harga-alert").style.display = "none";
+    }
+  
+    // Jumlah Sewa
+    if (jumlahSewa === "" || isNaN(jumlahSewa)) {
+      document.getElementById("jumlah_sewa-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("jumlah_sewa-alert").style.display = "none";
+    }
+  
+    // Total Harga
+    if (totalHarga === "" || isNaN(totalHarga)) {
+      document.getElementById("total_harga-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("total_harga-alert").style.display = "none";
+    }
+  
+    // Uang Bayar
+    if (uangBayar === "" || isNaN(uangBayar)) {
+      document.getElementById("uang_bayar-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("uang_bayar-alert").style.display = "none";
+    }
+  
+    // Kembalian
+    if (kembalian === "" || isNaN(kembalian)) {
+      document.getElementById("kembalian-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("kembalian-alert").style.display = "none";
+    }
+  
+    // Status
+    if (!statusInputs || statusInputs.length === 0) {
+      document.getElementById("status-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("status-alert").style.display = "none";
+    }
+    
+    if (isValid) {
+      document.getElementById("form-transaksi").submit(); // Submit form
+    } else {
+      alert('Data Transaksi Gagal Ditambahkan!'); // Display an alert if the form is not valid
+      document.getElementById("error-alert").innerText = "Data Transaksi Gagal Ditambahkan!";
+      document.getElementById("error-alert").style.display = "block";   
+    }
+  }
+  
+  // Preview gambar ketika dipilih
+  document.getElementById("inputBuktiPembayaran").onchange = function() {
+    var reader = new FileReader();
+  
+    reader.onload = function(e) {
+      document.getElementById("image-preview").src = e.target.result;
+      document.getElementById("image-preview").style.display = "block";
+    };
+  
+    reader.readAsDataURL(this.files[0]);
+  };
+  
+  // Attach validateForm function to the form's submit event
+  document.getElementById("form-transaksi").addEventListener("submit", validateForm);
+  </script>
+  

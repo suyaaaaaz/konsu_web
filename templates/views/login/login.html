@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>LOGIN ACCOUNT</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+    <!-- ICON WEB SERVER -->
+    <link href="{{ url_for('static', filename='icon_logo/side_nav.png') }}" rel="icon"> 
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets_penghuni/assets_login/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets_penghuni/assets_login/fonts/iconic/css/material-design-iconic-font.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/animate/animate.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/css-hamburgers/hamburgers.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/animsition/css/animsition.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/select2/select2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets_penghuni/assets_login/css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets_penghuni/assets_login/css/main.css') }}">
+
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <style>
+        .container-login100 {
+            position: relative; 
+            color: white;
+        }
+
+        .login100-form-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 30px; /* Adjust as needed */
+            display: flex;
+            justify-content: center; /* Centers horizontally */
+            align-items: center; /* Centers vertically */
+            height: 200px; /* Adjust based on your design */
+        }
+
+        .login100-form-title img {
+            max-width: 100%; /* Ensures image does not exceed parent width */
+            max-height: 100%; /* Ensures image does not exceed parent height */
+        }
+    </style>
+</head>
+<body>
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('{{ url_for('static', filename='assets_penghuni/assets_login/images/bg-01.jpg') }}'); ">
+            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                <form class="login100-form validate-form" method="POST" action="{{ url_for('login') }}">
+                    <span class="login100-form-title p-b-49">
+                        <img src="{{ url_for('static', filename='icon_logo/side_nav.png') }}" alt="" class="img-fluid">
+                    </span>
+
+                    <div class="wrap-input100 validate-input m-b-23" data-validate="Email is required">
+                        <span class="label-input100">Email</span>
+                        <input class="input100" type="text" name="email" placeholder="Type your email">
+                        <span class="focus-input100" data-symbol="&#xf206;"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        <span class="label-input100">Password</span>
+                        <input class="input100" type="password" name="pass" placeholder="Type your password">
+                        <span class="focus-input100" data-symbol="&#xf190;"></span>
+                    </div>
+                    
+                    <div class="text-right p-t-8 p-b-31">
+                        <a href="{{ url_for('landingpage') }}">
+                            Kembali Ke Halaman Landing Page ?
+                        </a>
+                    </div> 
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <button type="submit" class="login100-form-btn">
+                                Login
+                            </button>
+                        </div>
+                    </div> 
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+
+    <!-- Existing JavaScript files -->
+    <script src="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/animsition/js/animsition.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/bootstrap/js/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/select2/select2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/daterangepicker/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets_penghuni/assets_login/vendor/countdowntime/countdowntime.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets_penghuni/assets_login/js/main.js') }}"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Check if there's an error message and show SweetAlert
+        {% if error_msg %}
+        Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: '{{ error_msg }}',
+            confirmButtonText: 'OK'
+        });
+        {% endif %}
+
+        // Check if there's a success message and show SweetAlert
+        {% if success_msg %}
+        Swal.fire({
+            icon: 'success',
+            title: 'Login Successful',
+            text: '{{ success_msg }}',
+            confirmButtonText: 'OK'
+        });
+        {% endif %}
+    </script>
+</body>
+</html>

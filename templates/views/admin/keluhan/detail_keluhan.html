@@ -1,0 +1,80 @@
+<!-- Header -->
+{% include '/admin/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/admin/dashboard/sidebar.html' %}
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Detail Keluhan</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('homepage_admin') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('views.keluhan') }}">Keluhan</a></li>
+        <li class="breadcrumb-item active">Detail Keluhan</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" style="text-align: center">DETAIL DATA KELUHAN</h5>
+
+            <!-- Detail Keluhan -->
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nama Penghuni</label>
+                <input class="form-control" type="text" value="{{ keluhan.nama_penghuni }}" readonly>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Nama Kontrakan</label>
+                <input class="form-control" type="text" value="{{ keluhan.nama_kontrakan }}" readonly>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Tanggal Keluhan</label>
+                <input class="form-control" type="text" value="{{ keluhan.tgl_keluhan }}" readonly>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Status Validasi</label>
+                <input class="form-control" type="text" value="{{ keluhan.status }}" readonly>
+              </div>
+
+              <div class="col-md-12">
+                <label class="form-label">Keluhan Penghuni</label>
+                <input class="form-control" type="text" value="{{ keluhan.keluhan_penghuni }}" readonly>
+              </div>
+
+              <div class="col-md-12">
+                <label class="form-label">Gambar Keluhan</label>
+                {% if keluhan.gambar_keluhan %}
+                <img class="form-control" 
+                     src="{{ url_for('static', filename='upload/keluhan/' + keluhan.gambar_keluhan.split('/')[-1].split('\\')[-1]) }}" 
+                     alt="image-Preview" 
+                     style="max-width: 100%; max-width: 200px; margin-top: 10px" />
+                {% else %}
+                <p class="form-control-static">Tidak ada gambar</p>
+                {% endif %}
+              </div>
+
+              <div class="text-center mt-3">
+                <a href="{{ url_for('views.keluhan') }}" class="btn btn-danger">Kembali</a>
+              </div>
+            </div>
+            <!-- End Detail Keluhan -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->
+
+<!-- footer -->
+{% include '/admin/dashboard/footer.html' %}

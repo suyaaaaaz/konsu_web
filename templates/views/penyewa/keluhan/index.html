@@ -1,0 +1,111 @@
+<!-- Header -->
+{% include '/penyewa/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/penyewa/dashboard/navbar_homepage.html' %}
+
+<!-- Start Main -->
+<main id="main">
+    <section id="keluhan" class="container">
+        <div class="row">
+            
+            <div class="pagetitle">
+                <h1>Keluhan</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('views.homepage') }}">Dashboard</a></li> 
+                        <li class="breadcrumb-item active">Keluhan</li>
+                    </ol>
+                </nav>
+            </div><!-- End Page Title --> 
+          
+            <!-- Left side columns -->
+            <div class="col-lg-12">
+                <div class="row">
+          
+                    <!-- Recent Sales --> 
+                    <div class="card recent-sales overflow-auto"> 
+                        <h5 class="card-title">Data <span>| Keluhan</span></h5>
+                        <div class="btn_tambah mb3">
+                            <a href="{{ url_for('views.tambah_keluhan_penyewa') }}" class="btn btn-success">Tambah Data</a>
+                        </div>
+                        
+                        <table id="example" class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;" scope="col">No</th>
+                                    <th style="text-align: center;" scope="col">Gambar</th>
+                                    <th style="text-align: center;" scope="col">Nama</th>
+                                    <th style="text-align: center;" scope="col">Kontrakan</th>
+                                    <th style="text-align: center;" scope="col">Status</th>
+                                    <th style="text-align: center;" scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for keluhan in data_keluhan %}
+                                <tr style="vertical-align: middle;">
+                                    <td style="text-align: center;" scope="row">{{ loop.index }}</td>
+                                    <td style="text-align: center;">
+                                        <img
+                                            src="{{ url_for('static', filename=keluhan.gambar_keluhan.split('static/')[-1].replace('\\', '/')) }}"
+                                            alt="Gambar keluhan"
+                                            class="img-fluid"
+                                            style="max-width: 100px; max-height: 100px"
+                                        />
+                                    </td>
+                                    <td style="text-align: center;">{{ keluhan.nama_penghuni }}</td>
+                                    <td style="text-align: center;">{{ keluhan.nama_kontrakan }}</td>
+                                    <td style="text-align: center;">
+                                        {% if keluhan.status == "Sudah Divalidasi" %}
+                                        <button class="btn btn-success">Sudah Divalidasi</button>
+                                        {% elif keluhan.status == "Belum Divalidasi" %}
+                                        <button class="btn btn-danger">Belum Divalidasi</button>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="button-container">
+                                            {% if keluhan.status != "Sudah Divalidasi" %}
+                                            <a href="{{ url_for('views.edit_keluhan_penyewa', keluhan_id=keluhan._id) }}" class="btn btn-warning">Edit</a>
+                                            {% endif %}
+                                            <a href="{{ url_for('views.detail_keluhan_penyewa', keluhan_id=keluhan._id) }}" class="btn btn-primary">Detail</a>
+                                            <!-- <form action="{{ url_for('views.hapus_keluhan', keluhan_id=keluhan._id) }}" method="post">
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah anda yakin ingin menghapus keluhan {{ keluhan.nama_penghuni }}?')">Hapus</button>
+                                            </form> -->
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table> 
+                    </div>
+                </div><!-- End Recent Sales -->
+            </div><!-- End Left side columns -->
+           
+        </div>
+    </section>
+    <!-- end section dashboard -->
+</main>
+<!-- End #main -->
+
+<!-- footer -->
+{% include '/penyewa/dashboard/footer.html' %}
+
+
+
+<script>  
+    // SweetAlert for flash messages
+    document.addEventListener('DOMContentLoaded', function() {
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            Swal.fire({
+              title: "{{ 'Error' if category == 'error' else 'Success' }}",
+              text: "{{ message }}",
+              icon: "{{ 'error' if category == 'error' else 'success' }}",
+              confirmButtonText: 'OK'
+            });
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    });
+  </script>

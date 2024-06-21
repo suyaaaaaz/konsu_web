@@ -1,0 +1,306 @@
+<!-- Header -->
+{% include '/admin/dashboard/header.html' %}
+
+
+<!-- Sidebar -->
+{% include '/admin/dashboard/sidebar.html' %}
+
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Edit Penghuni</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('homepage_admin') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('views.penghuni') }}">Penghuni</a></li>
+        <li class="breadcrumb-item active">Edit Penghuni</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+    <!-- Alert untuk menampilkan pesan error -->
+    <div
+  id="error-alert"
+    class="alert alert-danger mt-2"
+    style="display: none"
+  ></div>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" style="text-align: center;">EDIT DATA PENGHUNI</h5>
+
+            <!-- Multi Columns Form -->
+            <form
+              id="form-penghuni"
+              action="{{ url_for('views.edit_penghuni', penghuni_id=penghuni._id) }}"
+              method="POST"
+              enctype="multipart/form-data"
+              class="row g-3"
+            >
+              <!-- Form fields -->
+              <div class="col-md-4">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  id="inputEmail"
+                  placeholder="Masukkan Email Penghuni"
+                  value="{{ penghuni.email }}"
+                />
+                <div
+                  id="email-alert"
+                  class="alert alert-danger"
+                  style="display: none; margin-top: 5px"
+                >
+                  Email harus diisi.
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="inputName" class="form-label">Nama Penghuni</label>
+                <input
+                  type="text"
+                  name="nama"
+                  class="form-control"
+                  id="inputName"
+                  placeholder="Masukkan Nama Penghuni"
+                  value="{{ penghuni.nama }}"
+                />
+                <div
+                  id="nama-alert"
+                  class="alert alert-danger"
+                  style="display: none; margin-top: 5px"
+                >
+                  Nama harus diisi.
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control"
+                  id="inputPassword"
+                  placeholder="Masukkan Password Penghuni (leave blank to keep current password)"
+                />
+                <div
+                  id="password-alert"
+                  class="alert alert-danger"
+                  style="display: none; margin-top: 5px"
+                >
+                  Password harus diisi.
+                </div>
+              </div>
+             
+              <div class="col-md-8">
+                <label for="inputUmur" class="form-label">Umur</label>
+                <input
+                  type="number"
+                  name="umur"
+                  class="form-control"
+                  id="inputUmur"
+                  placeholder="Masukkan Umur Penghuni"
+                  value="{{ penghuni.umur }}"
+                />
+                <div
+                  id="umur-alert"
+                  class="alert alert-danger"
+                  style="display: none; margin-top: 5px"
+                >
+                  Umur harus diisi.
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="inputJenisKelamin" class="form-label">Jenis Kelamin</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="jenisKelamin" id="jenisKelamin1" value="Laki-Laki"
+                    {% if penghuni.jenisKelamin == 'Laki-Laki' %}checked{% endif %}>
+                  <label class="form-check-label" for="jenisKelamin1">Laki-Laki</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="jenisKelamin" id="jenisKelamin2" value="Perempuan"
+                    {% if penghuni.jenisKelamin == 'Perempuan' %}checked{% endif %}>
+                  <label class="form-check-label" for="jenisKelamin2">Perempuan</label>
+                </div>
+                <div
+                  id="jk-alert"
+                  class="alert alert-danger"
+                  style="display: none; margin-top: 5px"
+                >
+                  Jenis Kelamin harus dipilih.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="inputStatus" class="form-label">Status Penghuni</label>
+                <select class="form-select" name="status" id="inputStatus">
+                  <option value="">Pilih Status Penghuni</option>
+                  <option value="Sudah Menikah" {% if penghuni.status == 'Sudah Menikah' %}selected{% endif %}>Sudah Menikah</option>
+                  <option value="Belum Menikah" {% if penghuni.status == 'Belum Menikah' %}selected{% endif %}>Belum Menikah</option>
+                </select>
+                <div
+                  id="status-alert"
+                  class="alert alert-danger"
+                  style="display: none; margin-top: 5px"
+                >
+                  Status Penghuni harus dipilih.
+                </div>
+              </div>
+
+              <!-- role -->
+              <div class="col-md-6">
+                <label for="inputRole" class="form-label">Role</label>
+                <select class="form-select" name="role" id="inputRole">
+                  <option value="penghuni" {% if penghuni.role == 'penghuni' %}selected{% endif %}>Penghuni</option>
+                  <!-- <option value="admin" {% if penghuni.role == 'admin' %}selected{% endif %}>Admin</option> -->
+                </select>
+                <div
+                id="role-alert"
+                class="alert alert-danger"
+                style="display: none; margin-top: 5px"
+              >
+                Role Penghuni harus dipilih.
+              </div>
+            </div>
+
+                <!-- foto ktp -->
+              <div class="col-md-8">
+                <label for="inputKTP" class="form-label">Foto KTP</label>
+                <input
+                  type="file"
+                  name="poto_ktp"
+                  class="form-control"
+                  id="inputKTP"
+                  placeholder="Upload Foto KTP"
+                />
+                <img
+                  id="preview"
+                  src="{{ url_for('static', filename='upload/ktp/' + penghuni.poto_ktp.split('/')[-1].split('\\')[-1]) }}"
+                  alt="Preview"
+                  style="max-width: 100%; margin-top: 10px"
+                />
+                <div
+                  id="ktp-alert"
+                  class="alert alert-danger"
+                  style="display: none; margin-top: 5px"
+                >
+                  Foto KTP harus diupload.
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Update Data</button>
+                <a href="{{ url_for('views.penghuni') }}" class="btn btn-danger">Kembali</a>
+              </div>
+            
+            </form>
+            <!-- End Multi Columns Form -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->
+
+<!-- footer -->
+{% include '/admin/dashboard/footer.html' %}
+
+<script>
+  document.getElementById("form-penghuni").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent default form submission
+    
+    validateForm(); // Validate form
+  });
+
+  function validateForm() {
+    var nama = document.getElementById('inputName').value;
+    var email = document.getElementById('inputEmail').value; 
+    var umur = document.getElementById('inputUmur').value;
+    var jenisKelamin = document.querySelector('input[name="jenisKelamin"]:checked');
+    var status = document.getElementById('inputStatus').value;
+    var role = document.getElementById("inputRole").value;
+
+    var isValid = true;
+
+    if (nama === '') {
+      document.getElementById('nama-alert').style.display = 'block';
+      isValid = false;
+    } else {
+      document.getElementById('nama-alert').style.display = 'none';
+    }
+
+    if (email === '') {
+      document.getElementById('email-alert').style.display = 'block';
+      isValid = false;
+    } else {
+      document.getElementById('email-alert').style.display = 'none';
+    }
+
+    if (umur === '') {
+      document.getElementById('umur-alert').style.display = 'block';
+      isValid = false;
+    } else {
+      document.getElementById('umur-alert').style.display = 'none';
+    }
+
+    if (!jenisKelamin) {
+      document.getElementById('jk-alert').style.display = 'block';
+      isValid = false;
+    } else {
+      document.getElementById('jk-alert').style.display = 'none';
+    }
+
+    if (status === '') {
+      document.getElementById('status-alert').style.display = 'block';
+      isValid = false;
+    } else {
+      document.getElementById('status-alert').style.display = 'none';
+    }
+
+    if (role === "") {
+      document.getElementById("role-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("role-alert").style.display = "none";
+    }
+
+    if (isValid) { 
+      Swal.fire({
+        title: 'Success',
+        text: 'Data Penghuni Berhasil Diupdate!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        document.getElementById("form-penghuni").submit(); // Submit form
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Data Penghuni Gagal Diupdate!',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      document.getElementById("error-alert").innerText = "Data Penghuni Gagal Diupdate!";
+      document.getElementById("error-alert").style.display = "block";
+    }
+  }
+
+  // Preview gambar ketika dipilih
+  document.getElementById("inputKTP").onchange = function () {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      document.getElementById("preview").src = e.target.result;
+      document.getElementById("preview").style.display = "block";
+    };
+
+    reader.readAsDataURL(this.files[0]);
+  };
+</script>
+
+

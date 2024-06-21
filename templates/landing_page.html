@@ -1,0 +1,301 @@
+<!-- Header -->
+{% include '/penyewa/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/penyewa/dashboard/navbar.html' %}
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+          <h1>Selamat Datang di KONSU</h1>
+          <h2>
+            Temukan Kontrakan Terbaik Bersama Kami!
+            Dengan pengalaman bertahun-tahun dan dedikasi tinggi, kami berkomitmen untuk memenuhi semua kebutuhan Anda. 
+           </h2> 
+          <div class="d-flex justify-content-center justify-content-lg-start" >
+            <a href="{{ url_for('login') }}" class="btn-get-started scrollto" style="margin-bottom: 50px;">Pesan Sekarang</a> 
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+          <img src="{{ url_for('static', filename='assets_penghuni/assets_landingpage/img/hero-img.png') }}" class="img-fluid animated" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+<!-- ======= Kontrakan Section ======= -->
+<section id="product" class="portfolio">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>Properties</h2>
+      <p>Selamat datang di halaman Properti kami!  
+        <br>
+        Kami menawarkan berbagai pilihan properti terbaik yang siap memenuhi kebutuhan Anda. 
+        <br> 
+        Dengan desain modern, fasilitas lengkap, dan lokasi strategis, properti kami dirancang untuk memberikan kenyamanan dan gaya hidup yang Anda impikan.
+        <br>
+        Pesan sekarang dan nikmati kepuasan tanpa batas!</p>
+    </div>
+
+    <ul id="portfolio-flters" class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+      <li data-filter="*" class="filter-active">Semua</li>
+      <li data-filter=".filter-tahunan">Tahunan</li>
+      <li data-filter=".filter-bulanan">Bulanan</li>
+    </ul>
+
+    <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+      {% for kontrakan in kontrakan_list %}
+          <div class="col-lg-4 col-md-6 portfolio-item filter-{{ kontrakan.tipeKontrakan|lower }}">
+              <div class="portfolio-img">
+                  <img src="{{ url_for('static', filename='upload/kontrakan/' + kontrakan.gambar) }}" class="img-fluid" alt="" style=" width: 100%;
+                  height: 300px;
+                  object-fit: cover;
+                  border-radius: 5px;
+                  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+              </div>
+              <div class="portfolio-info">
+                  <h4>{{ kontrakan.nama_kontrakan }}</h4>
+                  <p>{{ kontrakan.tipeKontrakan }}</p>
+                  {% if 'formatted_harga' in kontrakan %}
+                      <p>{{ kontrakan.formatted_harga }}</p>
+                  {% else %}
+                      <p>{{ kontrakan.harga }}</p>
+                  {% endif %}
+                  <a href="{{ url_for('login') }}" class="details-link" title="More Details">
+                      <i class="bx bx-fade-right-hover bxs-right-arrow-circle bx-md"></i>
+                  </a>
+              </div>
+          </div>
+      {% endfor %}
+    </div>
+    
+  
+    
+    
+  </div>
+</section>
+<!-- End Kontrakan Section -->
+ 
+  
+      
+    <!-- ======= Team Section ======= -->
+    <section id="staff" class="team section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>OWNER KONSU</h2>
+          <p style="text-align: justify;">
+            Pemilik KONSU adalah seorang visioner dan inovator di bidang teknologi informasi dan manajemen properti. 
+            Dengan latar belakang yang kuat di industri ini, beliau telah menciptakan solusi yang mengubah cara orang mencari dan mengelola properti.
+            Pemilik KONSU memiliki pengalaman lebih dari dua dekade di bidang teknologi dan properti. Latar belakang akademisnya dalam ilmu komputer dan manajemen bisnis, 
+            dikombinasikan dengan pengalaman praktisnya dalam mengelola berbagai proyek properti, memberikan wawasan yang mendalam dan kemampuan untuk menciptakan solusi inovatif.
+            Pemilik KONSU sangat menghargai kepercayaan dan kepuasan pelanggan. Beliau selalu mengutamakan pelayanan yang ramah, cepat, dan profesional. 
+            Dengan tim yang dipilih secara selektif dan dilatih dengan baik, beliau memastikan bahwa setiap interaksi dengan pelanggan memberikan pengalaman positif dan solusi yang efektif.
+          </p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-12" data-aos="zoom-in" data-aos-delay="100" >
+            <div class="member d-flex align-items-start">
+              <div class="pic"><img src="{{ url_for('static', filename='staff/owner.jpg') }}" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>SUPADI </h4>
+                <span>OWNER PROPERTIES</span>
+                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
+                <div class="social"> 
+                  <a href=""><i class="ri-instagram-fill"></i></a> 
+                </div>
+              </div>
+            </div>
+        </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
+
+
+
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>About Us</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            <p style="text-align: justify;">
+              Selamat datang di KONSU, Website ini hadir untuk menyediakan platform yang lebih terorganisir, akurat, dan dapat diandalkan. Pemilik properti dan calon penyewa akan menikmati sistem yang lebih efisien dan nyaman, sehingga pada akhirnya meningkatkan kualitas hidup dan efisiensi pengelolaan properti. Dalam era digital ini, kami memahami bahwa mencari tempat tinggal yang ideal dan mengelola properti bisa menjadi tantangan. Visi kami adalah memberikan solusi terbaik yang memanfaatkan kemajuan teknologi informasi untuk mempermudah kehidupan Anda.
+            </p>
+            <p style="text-align: justify;">
+              Kami berkomitmen untuk menyediakan platform yang memungkinkan pemilik properti dan calon penyewa berinteraksi dengan lebih efisien, transparan, dan tanpa kendala. Misi kami adalah mengotomatisasi proses-proses manual dan memberikan akses informasi yang lengkap dan dapat diandalkan. Kebutuhan akan tempat tinggal sementara seperti kontrakan terus meningkat di Indonesia seiring dengan pertumbuhan populasi dan urbanisasi. Proses konvensional yang sering kali manual dan terfragmentasi menyebabkan banyak masalah bagi semua pihak yang terlibat. 
+            </p>
+            <p style="text-align: justify;">
+              Kami percaya bahwa teknologi berkualitas tinggi haruslah mudah diakses oleh semua orang. Oleh karena itu, KONSU menyediakan harga yang kompetitif dan penawaran spesial yang menguntungkan bagi pelanggan kami. Selain itu, kami juga memberikan pelayanan pelanggan yang terbaik, ramah, dan siap membantu menjawab pertanyaan serta memberikan saran yang Anda butuhkan.
+            </p>
+           </div>
+
+          <div class="col-lg-6 pt-4 pt-lg-0" style="text-align: justify;">
+            <p>
+              KONSU hadir untuk mengatasi masalah-masalah tersebut dengan menyediakan platform yang lebih terorganisir, akurat, dan dapat diandalkan. Kami percaya bahwa dengan sistem yang terintegrasi dan berbasis teknologi, kami dapat memberikan pengalaman yang lebih baik bagi pemilik properti dan calon penyewa.
+            </p>
+            <p>
+              Terima kasih telah memilih KONSU sebagai solusi untuk kebutuhan properti Anda. Kami berharap dapat membantu Anda menemukan tempat tinggal yang ideal dan mempermudah pengelolaan properti Anda.
+            </p>
+            <a href="#why" class="btn-learn-more">Why KONSU ?</a>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->
+
+   <!-- ======= Why Us Section ======= -->
+   <section id="why" class="why-us section-bg">
+    <div class="container-fluid" data-aos="fade-up">
+      <div class="section-title">
+        <h2>WHY US?</h2>
+      </div>
+      <div class="row">
+
+        <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch  order-2 order-lg-1">
+          <div class="content">
+            <h3>Mengapa menggunakan aplikasi
+              <strong>KONSU ??</strong>
+            </h3>
+            <p>
+              Inilah alasan mengapa Anda tidak boleh melewatkannya :
+            </p>
+          </div>
+
+          <div class="accordion-list">
+            <ul>
+              <li>
+                <a data-bs-toggle="collapse" class="collapse" data-bs-target="#accordion-list-1"><span>01</span>Lokasi Strategis <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                <div id="accordion-list-1" class="collapse show" data-bs-parent=".accordion-list">
+                  <p>
+                    Semua properti kami berada di lokasi yang strategis dan mudah diakses.
+                  </p>
+                </div>
+              </li>
+
+              <li>
+                <a data-bs-toggle="collapse" data-bs-target="#accordion-list-2" class="collapsed"><span>02</span>Fasilitas Lengkap <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                <div id="accordion-list-2" class="collapse" data-bs-parent=".accordion-list">
+                  <p>
+                    Setiap properti dilengkapi dengan fasilitas modern dan berkualitas tinggi.
+                  </p>
+                </div>
+              </li>
+
+              <li>
+                <a data-bs-toggle="collapse" data-bs-target="#accordion-list-3" class="collapsed"><span>03</span> Desain Menarik
+                   <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                <div id="accordion-list-3" class="collapse" data-bs-parent=".accordion-list">
+                  <p>
+                    Menggabungkan elemen desain modern dengan sentuhan elegan untuk menciptakan ruang yang indah. Tata ruang yang dirancang untuk memberikan kenyamanan maksimal dan efisiensi penggunaan ruang.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <a data-bs-toggle="collapse" data-bs-target="#accordion-list-4" class="collapsed"><span>04</span>  Harga Terjangkau
+                   <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                <div id="accordion-list-4" class="collapse" data-bs-parent=".accordion-list">
+                  <p>
+                    Menawarkan harga yang sebanding dengan kualitas yang diberikan, memastikan Anda mendapatkan nilai yang luar biasa. Dan menyediakan berbagai opsi pembiayaan yang fleksibel untuk memudahkan proses pembelian.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <a data-bs-toggle="collapse" data-bs-target="#accordion-list-5" class="collapsed"><span>05</span>  Pengalaman Terpercaya
+                   <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                <div id="accordion-list-5" class="collapse" data-bs-parent=".accordion-list">
+                  <p>
+                    Banyak pelanggan kami memberikan ulasan positif, mencerminkan kepuasan mereka terhadap produk dan layanan kami. Dan Kami dikenal sebagai penyedia properti terpercaya dengan rekam jejak yang solid dalam industri properti.
+                  </p>
+                </div>
+              </li>
+
+
+            </ul>
+          </div>
+
+        </div> 
+          <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img" 
+          style="background-image: url('{{ url_for('static', filename='assets_penghuni/assets_landingpage/img/hero-img.png') }}')" 
+          data-aos="zoom-in" data-aos-delay="150">
+          &nbsp;
+          </div>
+   
+       
+      </div>
+
+    </div>
+  </section><!-- End Why Us Section -->
+     
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Contact</h2>
+          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-5 d-flex align-items-stretch">
+            <div class="info">
+              <div class="address">
+                <i class="bi bi-geo-alt"></i>
+                <h4>Location:</h4>
+                <p> 
+                  Jl. Kp. Rw. Bebek No.91
+                  <br>
+                  Gg. Hj. Namung,
+                  <br>
+                  RT.006/RW.008, Kota Baru, Kec. Bekasi Bar., Kota Bks, Jawa Barat 17133
+                </div>
+
+              <div class="email">
+                <i class="bi bi-envelope"></i>
+                <h4>Email:</h4>
+                <p>konsu@gmail.com</p>
+              </div>
+
+              <div class="phone">
+                <i class="bi bi-phone"></i>
+                <h4>Call:</h4>
+                <p>+62 813-1745-3587 (Bpk. Supadi)</p>
+                <p>+62 822-9877-6320 (Tegar Dwi Septiadi)</p>
+              </div>
+            </div>
+          </div>
+
+            
+          
+          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d15865.562464390721!2d106.9602674245834!3d-6.212103398910489!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2sid!4v1718297989639!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+            
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+
+<!-- footer -->
+{% include '/penyewa/dashboard/footer.html' %}

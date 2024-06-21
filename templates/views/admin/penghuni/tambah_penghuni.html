@@ -1,0 +1,220 @@
+<!-- Header -->
+{% include '/admin/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/admin/dashboard/sidebar.html' %}
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Tambah Penghuni</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{{ url_for('homepage_admin') }}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="{{ url_for('views.penghuni') }}">Penghuni</a>
+        </li>
+        <li class="breadcrumb-item active">Tambah Penghuni</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <!-- Alert untuk menampilkan pesan error -->
+  <div id="error-alert" class="alert alert-danger mt-2" style="display: none"></div>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" style="text-align: center;">INPUT DATA PENGHUNI</h5>
+
+            <!-- Multi Columns Form -->
+            <form id="form-penghuni" action="{{ url_for('views.tambah_penghuni') }}" method="POST" enctype="multipart/form-data" class="row g-3">
+              <!-- Form fields -->
+              <div class="col-md-6">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Masukkan Email Penghuni" />
+                <div id="email-alert" class="alert alert-danger" style="display: none; margin-top: 5px">Email harus diisi.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Masukkan Password Penghuni" />
+                <div id="password-alert" class="alert alert-danger" style="display: none; margin-top: 5px">Password harus diisi.</div>
+              </div>
+              <div class="col-md-12">
+                <label for="inputName" class="form-label">Nama Penghuni</label>
+                <input type="text" name="nama" class="form-control" id="inputName" placeholder="Masukkan Nama Penghuni" />
+                <div id="nama-alert" class="alert alert-danger" style="display: none; margin-top: 5px">Nama harus diisi.</div>
+              </div>
+              <div class="col-md-8">
+                <label for="inputUmur" class="form-label">Umur</label>
+                <input type="number" name="umur" class="form-control" id="inputUmur" placeholder="Masukkan Umur Penghuni" />
+                <div id="umur-alert" class="alert alert-danger" style="display: none; margin-top: 5px">Umur harus diisi.</div>
+              </div>
+              <!-- jenis kelamin -->
+              <div class="col-md-4">
+                <label for="inputJenisKelamin" class="form-label">Jenis Kelamin</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="jenisKelamin" id="jenisKelaminLakiLaki" value="Laki-Laki" />
+                  <label class="form-check-label" for="jenisKelaminLakiLaki">Laki-Laki</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="jenisKelamin" id="jenisKelaminPerempuan" value="Perempuan" />
+                  <label class="form-check-label" for="jenisKelaminPerempuan">Perempuan</label>
+                </div>
+                <div id="jk-alert" class="alert alert-danger" style="display: none; margin-top: 5px">Jenis Kelamin harus dipilih.</div>
+              </div>
+
+              <!-- status -->
+              <div class="col-md-6">
+                <label for="inputStatus" class="form-label">Status Penghuni</label>
+                <select class="form-select" name="status" id="inputStatus">
+                  <option value="">Pilih Status Penghuni</option>
+                  <option value="Sudah Menikah">Sudah Menikah</option>
+                  <option value="Belum Menikah">Belum Menikah</option>
+                </select>
+                <div id="status-alert" class="alert alert-danger" style="display: none; margin-top: 5px">Status Penghuni harus dipilih.</div>
+              </div>
+
+              <!-- role -->
+              <div class="col-md-6">
+                <label for="inputRole" class="form-label">Peran</label>
+                <select class="form-select" name="role" id="inputRole">
+                  <option value="">Pilih Peran</option>
+                  <!-- <option value="admin">Admin</option> -->
+                  <option value="penghuni">Penghuni</option>
+                </select>
+                <div id="role-alert" class="alert alert-danger" style="display: none; margin-top: 5px">Peran harus dipilih.</div>
+              </div>
+
+              <div class="col-md-8">
+                <label for="inputKTP" class="form-label">Foto KTP</label>
+                <input type="file" name="poto_ktp" class="form-control" id="inputKTP" placeholder="Upload Foto KTP" />
+                <img id="preview" src="#" alt="Preview" style="display: none; max-width: 100%; margin-top: 10px" />
+                <div id="ktp-alert" class="alert alert-danger" style="display: none; margin-top: 5px">Foto KTP harus diupload.</div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-success">Tambah Data</button>
+                <a href="{{ url_for('views.penghuni') }}" class="btn btn-danger">Kembali</a>
+              </div>
+            </form>
+            <!-- End Multi Columns Form -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->
+
+<!-- footer -->
+{% include '/admin/dashboard/footer.html' %}
+
+<script>
+  document.getElementById("form-penghuni").addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default form submission
+    validateForm(); // Validate form
+  });
+
+  function validateForm() {
+    var nama = document.getElementById("inputName").value;
+    var email = document.getElementById("inputEmail").value;
+    var password = document.getElementById("inputPassword").value;
+    var umur = document.getElementById("inputUmur").value;
+    var jenisKelamin = document.querySelector('input[name="jenisKelamin"]:checked');
+    var status = document.getElementById("inputStatus").value;
+    var role = document.getElementById("inputRole").value;
+    var ktp = document.getElementById("inputKTP").value;
+
+    var isValid = true;
+
+    if (nama === "") {
+      document.getElementById("nama-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("nama-alert").style.display = "none";
+    }
+
+    if (email === "") {
+      document.getElementById("email-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("email-alert").style.display = "none";
+    }
+
+    if (password === "") {
+      document.getElementById("password-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("password-alert").style.display = "none";
+    }
+
+    if (umur === "") {
+      document.getElementById("umur-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("umur-alert").style.display = "none";
+    }
+
+    if (!jenisKelamin) {
+      document.getElementById("jk-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("jk-alert").style.display = "none";
+    }
+
+    if (status === "") {
+      document.getElementById("status-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("status-alert").style.display = "none";
+    }
+
+    if (role === "") {
+      document.getElementById("role-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("role-alert").style.display = "none";
+    }
+
+    if (ktp === "") {
+      document.getElementById("ktp-alert").style.display = "block";
+      isValid = false;
+    } else {
+      document.getElementById("ktp-alert").style.display = "none";
+    }
+
+    if (isValid) {
+      Swal.fire({
+        title: 'Success',
+        text: 'Data Penghuni Berhasil Ditambahkan!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        document.getElementById("form-penghuni").submit();
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Data Penghuni Gagal Ditambahkan!',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      document.getElementById("error-alert").innerText = "Data Penghuni Gagal Ditambahkan!";
+      document.getElementById("error-alert").style.display = "block";
+    }
+  }
+
+  // Preview gambar ketika dipilih
+  document.getElementById("inputKTP").onchange = function () {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("preview").src = e.target.result;
+      document.getElementById("preview").style.display = "block";
+    };
+    reader.readAsDataURL(this.files[0]);
+  };
+</script>

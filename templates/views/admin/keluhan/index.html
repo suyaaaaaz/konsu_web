@@ -1,0 +1,128 @@
+<!-- Header -->
+{% include '/admin/dashboard/header.html' %}
+
+<!-- Sidebar -->
+{% include '/admin/dashboard/sidebar.html' %}
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Kelola Keluhan</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{{ url_for('homepage_admin') }}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Keluhan</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <!-- Left side columns -->
+      <div class="col-lg-12">
+        <div class="row">
+          <!-- Recent Sales -->
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title">Data <span>| Keluhan</span></h5>
+                <div class="btn_tambah mb-3">
+                  <a href="{{ url_for('views.tambah_keluhan') }}" class="btn btn-success">Tambah Data</a>
+                </div>
+
+                <table class="table table-borderless datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">No</th>
+                      <th scope="col">Gambar</th>
+                      <th scope="col">Nama</th>
+                      <th scope="col">Kontrakan</th>
+                      <th scope="col">Tgl</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Keluhan</th>
+                      <th scope="col">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for keluhan in data_keluhan %}
+                    <tr style="vertical-align: middle;">
+                        <td scope="row">{{ loop.index }}</td>
+                        <td>
+                          <img
+                            src="{{ url_for('static', filename=keluhan.gambar_keluhan.split('static/')[-1].replace('\\', '/')) }}"
+                            alt="Gambar Keluhan"
+                            class="img-fluid"
+                            style="max-width: 150px; max-height: 150px"
+                          />
+                        </td>
+                        <td>{{ keluhan.nama_penghuni }}</td>
+                        <td>{{ keluhan.nama_kontrakan }}</td>
+                        <td>{{ keluhan.tgl_keluhan }}</td>
+                        <td>
+                            {% if keluhan.status == "Sudah Divalidasi" %}
+                            <button class="btn btn-success">Sudah Divalidasi</button>
+                            {% elif keluhan.status == "Belum Divalidasi" %}
+                            <button class="btn btn-danger">Belum Divalidasi</button>
+                            {% endif %}
+                        </td>
+                        <td>{{ keluhan.keluhan_penghuni }}</td>
+                        <td>
+                            <div class="button-container">
+                                <a href="{{ url_for('views.edit_keluhan', keluhan_id=keluhan._id) }}" class="btn btn-warning">Edit</a>
+                                <a href="{{ url_for('views.detail_keluhan', keluhan_id=keluhan._id) }}" class="btn btn-primary">Detail</a>
+                                <form
+                                  action="{{ url_for('views.hapus_keluhan', keluhan_id=keluhan._id) }}"
+                                  method="POST"
+                                  id="deleteForm-{{ keluhan._id }}"
+                                  style="display:inline"
+                                >
+                                  <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ keluhan.nama_penghuni }}', '{{ keluhan._id }}')">Hapus</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table> 
+              </div>
+            </div>
+          </div>
+          <!-- End Recent Sales -->
+        </div>
+      </div>
+      <!-- End Left side columns -->
+    </div>
+  </section>
+</main>
+<!-- End #main -->
+
+<!-- footer -->
+{% include '/admin/dashboard/footer.html' %}
+
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  function confirmDelete(namaKeluhan, formId) {
+    Swal.fire({
+      title: 'Konfirmasi Hapus',
+      text: `Apakah Anda yakin ingin menghapus keluhan ${namaKeluhan}?`,
+      icon: 'warning',
+      showCancelButton: true, 
+      confirmButtonText: 'Ya, Hapus!',
+      cancelButtonText: 'Batal',
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('deleteForm-' + formId).submit(); // Submit the form if confirmed
+      }
+    });
+  }
+ 
+</script>

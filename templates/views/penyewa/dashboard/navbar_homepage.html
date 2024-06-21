@@ -1,0 +1,86 @@
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top" style="background: #37517e;">
+    <div class="container d-flex align-items-center">
+        <div class="d-flex align-items-center flex-grow-1">
+            <a href="{{ url_for('views.homepage') }}" class="logo me-3">
+                <img src="{{ url_for('static', filename='icon_logo/side_nav.png') }}" alt="Logo" class="img-fluid">
+            </a>
+            <h1 class="logo me-3">
+                <a href="{{ url_for('views.homepage') }}">KONSU</a>
+            </h1>
+        </div>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                {% set current_path = request.path %}
+                <li>
+                    <a class="nav-link scrollto {% if current_path == url_for('views.homepage') %}active{% endif %}" href="{{ url_for('views.homepage') }}">Dashboard</a>
+                </li>
+                <li>
+                    <a class="nav-link scrollto {% if current_path == url_for('views.penyewa_kontrakan') %}active{% endif %}" href="{{ url_for('views.penyewa_kontrakan') }}">Kontrakan</a>
+                </li>
+                <li>
+                    <a class="nav-link scrollto {% if current_path == url_for('views.penyewa_transaksi') %}active{% endif %}" href="{{ url_for('views.penyewa_transaksi') }}">Transaksi</a>
+                </li>
+                <li>
+                    <a class="nav-link scrollto {% if current_path == url_for('views.penyewa_keluhan') %}active{% endif %}" href="{{ url_for('views.penyewa_keluhan') }}">Keluhan</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link scrollto {% if current_path == url_for('views.update_account_penghuni', user_id=current_user._id) %}active{% endif %}" onclick="toggleDropdown()">Hallo, {{ current_user.nama }}</a>
+                    <div id="dropdown-content" class="dropdown-content">
+                        <a href="{{ url_for('views.update_account_penghuni', user_id=current_user._id) }}">Edit Account</a>
+                        <a href="#" id="logout-link" onclick="confirmLogout()">Log out</a>
+                    </div>
+                </li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+    </div>
+</header>
+<!-- End Header -->
+
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmLogout() {
+        const userName = "{{ current_user.nama }}";
+        Swal.fire({
+            icon: 'warning',
+            title: `Hallo ${userName}, apakah anda yakin ingin logout?`,
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        });
+    }
+
+    function toggleDropdown() {
+        const dropdown = document.getElementById("dropdown-content");
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    // Close dropdown if clicked outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById("dropdown-content");
+        if (!event.target.closest('.dropdown')) {
+            dropdown.style.display = "none";
+        }
+    });
+
+    // Close dropdown on Escape key press
+    document.addEventListener('keydown', function(event) {
+        const dropdown = document.getElementById("dropdown-content");
+        if (event.key === "Escape") {
+            dropdown.style.display = "none";
+        }
+    });
+</script>
