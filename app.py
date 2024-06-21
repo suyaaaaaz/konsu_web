@@ -19,6 +19,13 @@ import bcrypt
 import jwt
 import logging  
 
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME =  os.environ.get("DB_NAME")
+
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -55,11 +62,7 @@ app.config["UPLOAD_FOLDER_KONTRAKAN"] = 'static/upload/kontrakan/'
 app.config["UPLOAD_FOLDER_KELUHAN"] = 'static/upload/keluhan/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
 
-MONGODB_URI = os.environ.get("MONGODB_URI")
-DB_NAME =  os.environ.get("DB_NAME")
 
 # Function to check allowed file extensions
 def allowed_file(filename):
